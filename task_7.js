@@ -30,30 +30,45 @@ let tra2 = mod.find_Train("Train_7", "Test direction 7");
 console.log(`Пошук потяга Train_7: ${tra2 !== -1 ? "знайдено" : "не знайдено"}`);
 ////////////////////////////////////////////////////////////////////////////////////
 
-// Додавання лікарів
-mod.add_Passenger("Петро Іванович", 87, tra1);
-mod.add_Passenger("Андрій Богданович", 43, tra1);
-mod.add_Passenger("Оксана Петрівна", 19, tra1);
+// Додавання пасажира
+mod.add_Passenger("Петро Іванович", 380980003587, tra1);
+mod.add_Passenger("Андрій Богданович", 380967545343, tra1);
+mod.add_Passenger("Оксана Петрівна", 380976554219, tra1);
 
-// Список лікарів у лікарні Hospital_1
+// Список пассажирів у поїзді Train_1
 mod.get_Passenger_List(tra1);
 
-// Видалення лікарів
-console.log("Видалення лікарів: Андрій Богданович");
-mod.remove_Passenger("Андрій Богданович", 43, tra1);
+// Видалення пасажирів
+console.log("Видалення пасажирів: Оксана Петрівна");
+mod.remove_Passenger("Оксана Петрівна", 380976554219, tra1);
 
-// Список лікарів у лікарні Hospital_1
+// Список пасажирів Train_1
 mod.get_Passenger_List(tra1);
 
 // Редагування лікарів
-console.log("Редагування лікарів: Петро Іванович");
-mod.edit_Passenger("Петро Іванович", 87, tra1, "Ігор Олегович", 37);
+//console.log("Редагування лікарів: Петро Іванович");
+//mod.edit_Passenger("Петро Іванович", 87, tra1, "Ігор Олегович", 37);
 
 // Список лікарів у лікарні Hospital_1
-mod.get_Passenger_List(tra1);
+//mod.get_Passenger_List(tra1);
 
-// Пошук лікарів
-let pas1 = mod.find_Passenger("Оксана Петрівна", 19, tra1);
-console.log(`Пошук лікаря - Оксана Петрівна: ${tra1 !== -1 ? "знайдено" : "не знайдено"}`);
-let pas2 = mod.find_Passenger("Ольга Михайлівна", 24, tra1);
-console.log(`Пошук лікаря - Ольга Михайлівна: ${tra2 !== -1 ? "знайдено" : "не знайдено"}`);
+// Пошук пасажирів
+let pas1 = mod.find_Passenger("Оксана Петрівна", 380976554219, tra1);
+console.log(`Пошук пасажира - Оксана Петрівна: ${tra1 !== -1 ? "знайдено" : "не знайдено"}`);
+let pas2 = mod.find_Passenger("Андрій Іванович", 380976558924, tra1);
+console.log(`Пошук пасажира - Андрій Іванович: ${tra2 !== -1 ? "знайдено" : "не знайдено"}`);
+
+
+
+
+// Додавання квитка
+let tic1 =mod.add_Ticket("2", "34", tra1);
+let tic2 =mod.add_Ticket("4","56", tra1);
+let tic3 =mod.add_Ticket("2", "44", tra1);
+
+
+mod.get_Ticket_List(tra1);
+
+ 
+
+

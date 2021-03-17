@@ -1,5 +1,7 @@
 const train = require("./train.");
 const passenger = require("./passenger");
+const tickets = require ("./ticket");
+const is_sold = require("./soldticket");
 
 exports.find_Train     = train.find_Train;
 exports.add_Train      = train.add_Train;
@@ -12,3 +14,11 @@ exports.add_Passenger    = passenger.add_Passenger;
 exports.remove_Passenger   = passenger.remove_Passenger;
 exports.edit_Passenger   = passenger.edit_Passenger;
 exports.get_Passenger_List = passenger.get_Passenger_List;
+
+
+exports.add_Ticket = tickets.add_Ticket;
+exports.bye_Ticket= tickets.bye_Ticket;
+exports.changeTicket = tickets.changeTicket;
+exports.get_Ticket_List =tickets.get_Ticket_List;
+
+exports.get_SoldTicket_List = is_sold.get_SoldTicket_List;

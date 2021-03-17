@@ -1,19 +1,20 @@
-// Клас - лікар
-const train = require("./train.");
+// Клас - пасажир
+const train = require("./train.") ;
 class Passenger {
 
     constructor (name,number) {
     
         this.name = name;
-        this.number = this.number;
+        this.number = number;
     
         if (typeof name === 'undefined') { this.name = "Невідомий пасажир"; }
+        if (typeof number=== 'undefined') { this.number = "Невідомий пасажир"; }
     
     }
     
 }
 
-// Знайти лікаря в лікарні
+// Знайти пасажира у потязі
 function find_Passenger (name, number,train) {
 
     for (let id = 0; id < train.passenger_list.length; id++) {
@@ -29,17 +30,17 @@ function find_Passenger (name, number,train) {
 
 }
 
-// Додавання нового лікаря
+// Додавання нового пасажира
 function add_Passenger (name, number, train) {
 
-    let passenger = new Passenger(name, number);
-    train.passenger_list.push(name,number,train);
+    let passenger  =  new Passenger(name, number);
+    train.passenger_list.push(passenger);
 
     return passenger;
 
 }
 
-// Видалення лікаря з лікарні
+// Видалення пасажира
 function remove_Passenger (name, number,train) {
 
     let passenger = find_Passenger(name,number,train );
@@ -53,7 +54,7 @@ function remove_Passenger (name, number,train) {
 
 }
 
-// Редагувати лікаря в лікарні
+// Редагувати пасажира у потязі
 function edit_Passenger (name, number,train, new_name, new_number) {
 
     let passenger = find_Passenger(name, number,train);
@@ -68,15 +69,15 @@ function edit_Passenger (name, number,train, new_name, new_number) {
 
 }
 
-// Отримати список лікарів у конкретній лікарні
+// Отримати список пасажирів у конкретному поїзді
 function get_Passenger_List (train) {
 
     console.log("\n" + `Список усіх пасажирів ${train.name}:`);
 
     for (let id = 0; id <train.passenger_list.length; id++) {
 
-        let passenger= passenger.passenger_list[id];
-        console.log(`\tІм'я пасажира: ${train.name}, номер : ${train.number}`);
+        let passenger = train.passenger_list[id];
+        console.log(`\tІм'я пасажира: ${passenger.name}, номер : ${passenger.number}`);
 
     }
 
