@@ -45,12 +45,7 @@ mod.remove_Passenger("Оксана Петрівна", 380976554219, tra1);
 // Список пасажирів Train_1
 mod.get_Passenger_List(tra1);
 
-// Редагування лікарів
-//console.log("Редагування лікарів: Петро Іванович");
-//mod.edit_Passenger("Петро Іванович", 87, tra1, "Ігор Олегович", 37);
 
-// Список лікарів у лікарні Hospital_1
-//mod.get_Passenger_List(tra1);
 
 // Пошук пасажирів
 let pas1 = mod.find_Passenger("Оксана Петрівна", 380976554219, tra1);
@@ -58,17 +53,5 @@ console.log(`Пошук пасажира - Оксана Петрівна: ${tra1
 let pas2 = mod.find_Passenger("Андрій Іванович", 380976558924, tra1);
 console.log(`Пошук пасажира - Андрій Іванович: ${tra2 !== -1 ? "знайдено" : "не знайдено"}`);
 
-
-
-
-// Додавання квитка
-let tic1 =mod.add_Ticket("2", "34", tra1);
-let tic2 =mod.add_Ticket("4","56", tra1);
-let tic3 =mod.add_Ticket("2", "44", tra1);
-
-
-mod.get_Ticket_List(tra1);
-
- 
 
 
