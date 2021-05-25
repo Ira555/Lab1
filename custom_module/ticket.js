@@ -1,44 +1,36 @@
-class Ticket {
 
-    constructor (place,vagon,is_sold) {
-      this.place = place;
-      this.vagon = vagon;
-      this.is_sold = is_sold;
+
+  class Ticket {
+  
+    constructor (options) {
+      
+      this.place = options.place;
+      this.vagon = options.vagon;
+      this.is_sold = options.is_sold;
       if (typeof place === 'undefined') { this.place = "Невідомий пасажир"; }
       if (typeof vagon=== 'undefined') { this.vagon = "Невідомий пасажир"; }
     }
-   
   }
-
+  tickets_list = [new Ticket({Train: tra[1], place: 6, vagon: 3, is_sold:false}),
+  new Ticket({Train: tra[1], place: 1, vagon: 3, is_sold:false}),
+  new Ticket({Train: tra[1], place: 2, vagon: 3, is_sold:false})
+ 
+]
   
-  function add_Ticket (place,vagon,train) {
+function byeTicket(passanger, train, tickets, soldTicket_list) {
+  for(i = 0; i < tickets.length; i++){
+    if(tickets[i].Train === train && tickets[i].is_sold === false){
+        tickets[i].is_sold = true;
+        soldTicket_list.push(new SoldTicket({Passanger: passanger, Ticket: tickets[i]}));
+        return;
+    }
+  }
+     console.log("All tickets for this train were sold"); 
 
-    let tickets =  new Ticket (place,vagon,train);
-    train.tickets_list.push(tickets);
-
-    return tickets;
 
 }
+   
+exports.byeTicket = byeTicket;
 
  
 
-function get_Ticket_List (train) {
-
-  console.log("\n" + `Список усіх квитків ${train.name}:`);
-
-  for (let id = 0; id <train.tickets_list.length; id++) {
-
-      let tickets = train.tickets_list[id];
-      console.log(`\t номер  місця: ${tickets.place},номер вагону: ${tickets.vagon}`);
-
-  }
-
-  console.log();
-  
-  return train.tickets_list;
-
-}
-
-exports.add_Ticket = add_Ticket;
-
-exports.get_Ticket_List = get_Ticket_List;
