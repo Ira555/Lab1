@@ -7,7 +7,7 @@
       <!-- Заголовок модального вікна -->
       <div class="modal-header border-secondary">
         <div class="d-flex flex-column">
-          <span class="fs-3 lh-1" id="doctor_title">Пасажир</span>
+          <span class="fs-3 lh-1" id="passenger_title">#Title</span>
         </div>
         <button type="button" class="btn-close bg-primary" data-bs-dismiss="modal"></button>
       </div>
@@ -22,24 +22,24 @@
             placeholder="П.І.Б.">
 
           <div class="row gx-3">
-            <div class="col-12 col-sm-2">
+            <div class="col-12 col-sm-10">
 
-              <!--номер -->
+              <!-- Вік -->
               <span class="fs-5">Номер телефону</span>
-              <input class="form-control fs-5 bg-dark text-light border-primary" id="passenger_number" type="number"
-                placeholder="Номер телефону" >
+              <input class="form-control fs-5 bg-dark text-light border-primary" id="passenger_age" type="number"
+                placeholder="Номер" oninput="set_number(this)">
             </div>
 
             <div class="col-12 mb-2 d-block d-sm-none"></div>
             <div class="col-12 col-sm-10">
 
-              <!-- поїзд -->
+              <!-- Лікарня -->
               <span class="fs-5">Поїзд</span>
               <div class="dropdown">
                 <button class="btn btn-outline-primary fs-5 w-100 dropdown-toggle" type="button" id="passenger_train"
                   data-bs-toggle="dropdown" aria-expanded="false">Виберіть поїзд</button>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="passenger_train"
-                  id="passenger_train_list">
+                  id="passenger_trains_list">
                   <li><span class="dropdown-item" onclick="set_train(this)">. . .</span></li>
                 </ul>
               </div>

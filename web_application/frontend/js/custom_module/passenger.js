@@ -13,14 +13,16 @@ class Passenger{
       
         this.train = train;
         
-        if (id === "" ||
-            typeof id       === 'undefined') { this.id       = ++last_passenger_id;  }
+      
+       
+        if (name === "" ||
+            typeof name     === 'undefined') { this.name     = "Невідомий пасажир"; }
         if (number === "" ||
             typeof number     === 'undefined') { this.number      = "Не встановлено";  }
-        if (name === "" ||
-            typeof name     === 'undefined') { this.name     = "Невідомий лікар"; }
         if (train === "" ||
             typeof train === 'undefined') { this.train= "Не встановлено";  }
+        if (id === "" ||
+            typeof id       === 'undefined') { this.id       = ++last_passenger_id;  }
     
     }
 }

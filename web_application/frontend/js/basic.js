@@ -9,10 +9,12 @@ async function create_element() {
    target = target.substring(0, target.length - 1);
 
    if (target === "soldTicket") {
+
+
       modal_delete_soldTickets();
       return;
    }
-  
+
    switch (target) {
 
       case "train": $("#train_title").text("Додавання нового поїзда");
@@ -33,6 +35,7 @@ async function create_element() {
    $(`#modal_${target}s`).modal('show');
 
 }
+
 // ...............................................................................................
 
 // Редагування існуючого елемента
@@ -65,6 +68,7 @@ async function edit_element (element) {
                        $("#ticket_passenger").text(item.passenger);
                        $("#ticket_train").text(item.train);
                        prepare_trains_for_dropdown(target);
+                       prepare_passengers_for_dropdown(element);
                        break;
 
    }
@@ -88,7 +92,7 @@ function find_element (element) {
       case "trains":      search_list = find_trains(search);      break;
       case "passengers":        search_list = find_passengers(search);        break;
       case "tickets":       search_list = find_tickets(search);       break;
-      case "soldTickets": search_list = find_soldTickets(search, true); break;
+      case "soldTickets": search_list = find_tickets(search, true); break;
 
    }
 
@@ -101,6 +105,7 @@ function find_element (element) {
 // Видалення існуючого елемента
 function delete_element (item) {
 
+   let button;
    let message;
    let target = location.pathname.substring(1);
    let id = parseInt($(item).closest("tr").children().first().text());
@@ -108,26 +113,30 @@ function delete_element (item) {
    switch (target) {
 
       case "trains":
-         message = "Ви дійсно хочете видалити цей потяг";
+         message = "Ви дійсно хочете видалити інформацію про цей поїзд?";
+         button = "Видалити";
          break;
 
       case "passengers":
-         message = "Ви дійсно хочете звільнити цього пасажира";
+         message = "Ви дійсно хочете звільнити цього пасажира?";
+         button = "Звільнити";
          break;
 
       case "tickets":
-         message = "Ви дійсно хочете виписати цей квиток";
+         message = "Ви дійсно хочете повернути цей квиток?";
+         button = "Виписати";
          break;
 
       case "soldTickets":
-         message = "Ви дійсно хочете видалити цей проданий квиток";
+         message = "Ви дійсно хочете видалити інформацію про цей проданий квиток?";
+         button = "Видалити";
          break;
 
    }
    
    modal_confirm_create("Повідомлення",
                         `${message}?`,
-                        "Видалити",
+                        `${button}`,
                         "Відміна",
                         "delete", id);
 
@@ -151,10 +160,10 @@ function display_data (search_list) {
       case "passengers":        data = get_passengers_list();
                              break;
       case "tickets":       data = get_tickets_list();
-                             additional_attr = "false ";
+                             additional_attr = "false, ";
                              break;
-      case "soldTickets": data = get_soldTickets_list(true);
-                             additional_attr = "true";
+      case "soldTickets": data = get_tickets_list(true);
+                             additional_attr = "true, ";
                              break;
    }
 
@@ -167,7 +176,7 @@ function display_data (search_list) {
    // Відображення загальної кількості елементів
    $("#total_count").text(`Загальна кількість: ${data.length}`);
 
-   // Для проданих та непроданих квитків таблиці однакові
+   // Для виписаних та невиписаниї пацієнтів таблиці однакові
    if (target === "soldTickets") { target = "tickets"; }
 
    // Відобразити дані конкретної таблиці
@@ -256,7 +265,7 @@ function modal_confirm() {
          break;
 
 
-      // Видалення усіх даних про продані квитки
+      // Видалення усіх даних про виписаних пацієнтів
       case "delete_soldTickets":
          soldTickets_list = [];
          display_data();
@@ -296,15 +305,15 @@ function modal_update_trains (added_new, id) {
 }
 
 // Додавання нового пасажира або редагування існуючого
-function modal_update_passenger (added_new, id) {
+function modal_update_passengers (added_new, id) {
 
    let name     = $("#passenger_name").val();
-   let age      = $("#passenger_number").val();
+   let number     = $("#passenger_number").val();
    let train = $("#passenger_train").text();
 
-   train = train === "Виберіть потяг" ? "Не встановлено" : train;
+   train = train === "Виберіть поїзд" ? "Не встановлено" : train;
 
-   if (added_new) { add_passenger(name,number, train);      }
+   if (added_new) { add_passenger(name, number, train);      }
    else           { edit_passenger(id, name, number, train); }
 
    display_data();
@@ -314,18 +323,18 @@ function modal_update_passenger (added_new, id) {
 }
 
 // Додавання нового квитка або редагування існуючого
-function modal_update_ticket (added_new, id) {
+function modal_update_tickets (added_new, id) {
 
-   let place     = $("#ticket_place").val();
-   let vagon     = $("#ticket_vagon").val();
-   let passenger  = $("#ticket_passenger").text();
+   let place    = $("#ticket_place").val();
+   let vagon      = $("#ticket_vagon").val();
+   let passenger   = $("#ticket_passenger").text();
    let train = $("#ticket_train").text();
 
-   passenger   = passenger   === "Виберіть пасажира"  ? "Не призначено"  : passenger;
- train =train === "Виберіть потяг" ? "Не встановлено" : train;
+   passenger   = passenger  === "Виберіть пасажира"  ? "Не визначено"  : passenger;
+   train = train === "Виберіть поїзд" ? "Не встановлено" : train;
 
    if (added_new) { add_ticket(place, vagon, passenger, train);      }
-   else           { edit_ticket(id,place, vagon, passenger, train); }
+   else           { edit_ticket(id, place, vagon, passenger, train); }
 
    display_data();
    clear_input();
@@ -350,13 +359,14 @@ function modal_delete_soldTickets() {
 
 // ...............................................................................................
 
-// Вибір поїзда у випадаючому списку
+
+// Вибір лікарні у випадаючому списку
 function set_train (element) {
 
-   let train= $(element).text();
+   let train = $(element).text();
    let target = location.pathname.substring(1);
 
-   train= train === ". . ." ? "Виберіть потяг" : train;
+   train = train === ". . ." ? "Виберіть поїзд" : train;
 
    if (target === "passengers") { $("#passenger_train").text(train);  }
    else                      { $("#ticket_train").text(train);
@@ -364,25 +374,30 @@ function set_train (element) {
 
 }
 
-// Вибір пасажира у випадаючому списку
+// Вибір лікаря у випадаючому списку
 function set_passenger (element) {
 
    let passenger = $(element).text();
+   let target = location.pathname.substring(1);
 
-   passenger = passenger=== ". . ." ? "Виберіть пасажира" : passenger;
+   passenger = passenger === ". . ." ? "Виберіть поїзд" : passenger;
 
-   $("#ticket_passenger").text(passenger);
+   if (target === "ticket") { $("#ticket_passenger").text(passenger);  }
+   else                      { $("#ticket_train").text(passenger);
+                               prepare_passengers_for_dropdown();        }
+
+
 
 }
 
 // ...............................................................................................
 
-// Підготовуємо список доступних поїздів у випадаючому меню
+// Підготовуємо список доступних лікарень у випадаючому меню
 function prepare_trains_for_dropdown (target) {
 
    let list = $(`#${target}_trains_list`);
 
-   // Отримуємо інформацію про усі поїзди
+   // Отримуємо інформацію про усі лікарні
    get_data("trains").then((result) => {
 
       if (result.length != 0) {
@@ -402,14 +417,14 @@ function prepare_trains_for_dropdown (target) {
 // Підготовуємо список доступних лікарів у випадаючому меню
 function prepare_passengers_for_dropdown() {
 
-   $("#passenger_train").text("Виберіть пасажира");
+   $("#ticket_passenger").text("Виберіть пасажира");
 
-   let list = $(`#passenger_train_list`);
-   let train = $("passenger_train").text();
+   let list = $("#ticket_passengers_list");
+   let passenger = $("#ticket_passenger").text();
    let divider_is_added = false;
 
    // Отримуємо інформацію про усіх лікарів
-   get_data("passenger").then((result) => {
+   get_data("passengers").then((result) => {
 
       if (result.length != 0) {
          
@@ -417,7 +432,7 @@ function prepare_passengers_for_dropdown() {
 
          for (let item of result) {
 
-            if (item.train === train) {
+            if (item.passenger === passenger) {
 
                if (!divider_is_added) { list.append(divider);
                                         divider_is_added = true; }
@@ -430,7 +445,6 @@ function prepare_passengers_for_dropdown() {
 
    });
 }
-
 // ...............................................................................................
 
 // Видалення усіх даних з таблиці 
@@ -459,18 +473,21 @@ function clear_input() {
    let target = location.pathname.substring(1);
 
    switch (target) {
-      
+   
       case "trains": $("#train_name").val("");
                         $("#train_address").val("");
                         break;
       case "passengers":   $("#passenger_name").val("");
                         $("#passenger_number").val("");
-                        $("#passenger_train").text("Виберіть потяг");
+                        $("#passenger_train").text("Виберіть поїзд");
+                        $("#passenger_trains_list").find("li:not(:first)").remove();
                         break;
       case "tickets":  $("#ticket_place").val("");
                         $("#ticket_vagon").val("");
-                        $("#ticket_passenger").text("Виберіть квиток");
-                        $("#ticket_train").text("Виберіть потяг");
+                        $("#ticket_passenger").text("Виберіть пасажира");
+                        $("#ticket_train").text("Виберіть поїзд");
+                        $(`#ticket_passengers_list`).find("li:not(:first)").remove();
+                        $(`#ticket_trains_list`).find("li:not(:first)").remove();
                         break;
    }
 }
@@ -506,6 +523,15 @@ function get_icon_code (only_delete) {
 
 // ...............................................................................................
 
+// Обмеження вводу для поля "номер"
+function set_number (element) {
+
+   let value = $(element).val();
+   value = value.substring(0, 10);
+   
+   $(element).val(value);
+
+}
 
 // Метод дозволяє реалізувати затримку
 function delay (time) {

@@ -15,8 +15,6 @@ class Ticket {
         this.passenger = passenger;
         this.train = train;
         
-        if (id === "" ||
-            typeof id       === 'undefined') { this.id       = ++last_ticket_id;   }
         if (place === "" ||
             typeof place     === 'undefined') { this.place     = "Не встановлено";    }
         if (vagon === "" ||
@@ -25,6 +23,9 @@ class Ticket {
             typeof passenger   === 'undefined') { this.passenger   = "Невідомий пасажир";     }
         if (train === "" ||
             typeof train === 'undefined') { this.train = "Невідомий потяг";    }
+            
+        if (id === "" ||
+        typeof id       === 'undefined') { this.id       = ++last_ticket_id;   }
     
     }
 }

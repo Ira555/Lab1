@@ -146,11 +146,12 @@ function save_data_in_local_storage() {
          break;
 
       case "tickets":
-         localStorage.setItem('tckets', JSON.stringify(get_tickets_list()));
+         localStorage.setItem('tickets', JSON.stringify(get_tickets_list()));
          localStorage.setItem('soldTickets', JSON.stringify(get_soldTickets_list(true)));
          break;
 
       case "soldTickets":
+
          localStorage.setItem('soldTickets', JSON.stringify(get_soldTickets_list(true)));
          break;
 
@@ -158,7 +159,7 @@ function save_data_in_local_storage() {
 
    let identificators = [{ "name":"last_train_id","value":last_train_id },
                          { "name":"last_passenger_id",  "value":last_passenger_id   },
-                         { "vagon":"last_ticket_id", "value":last_ticket_id  }];
+                         { "place":"last_ticket_id", "value":last_ticket_id  }];
 
    localStorage.setItem('identificators', JSON.stringify(identificators));
 
@@ -192,7 +193,7 @@ function save_data_in_data_base() {
 
    let identificators = [{ "name":"last_train_id","value":last_train_id },
    { "name":"last_passenger_id",  "value":last_passenger_id   },
-   { "vagon":"last_ticket_id", "value":last_ticket_id  }];
+   { "place":"last_ticket_id", "value":last_ticket_id  }];
 
    server_PUT("/set_identificators", identificators);
 
@@ -246,7 +247,7 @@ async function load_data_from_local_storage() {
    for (let item of identificators) { 
       if (item.name === "last_train_id") { last_train_id = item.value; }
       if (item.name === "last_passenger_id")   { last_passenger_id   = item.value; }
-      if (item.name === "last_ticket_id")  { last_ticket_id  = item.value; }
+      if (item.place === "last_ticket_id")  { last_ticket_id  = item.value; }
    }
 }
 
@@ -275,6 +276,8 @@ async function load_data_from_data_base() {
          break;
 
       case "soldTickets":
+         await server_GET("/get_tickets").then((res) =>
+            { set_tickets_list(res); });
          await server_GET("/get_soldTickets").then((res) =>
             { set_soldTickets_list(res, true); });
          break;
